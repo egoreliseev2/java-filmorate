@@ -1,5 +1,7 @@
+
 import model.film.Film;
 import model.user.User;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -24,7 +26,7 @@ public class ValidationTests {
     }
 
     @Test
-    void shoulвCreateUser() {
+    void shoulCreateUser() {
         User user = User.builder()
                 .login("login")
                 .name("name")
