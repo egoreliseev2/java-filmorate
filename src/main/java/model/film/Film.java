@@ -1,6 +1,7 @@
 package model.film;
 
 import lombok.*;
+import lombok.experimental.FieldDefaults;
 
 import javax.validation.constraints.*;
 import java.time.LocalDate;
@@ -10,6 +11,7 @@ import java.time.LocalDate;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
+@FieldDefaults(makeFinal=false, level=AccessLevel.PRIVATE)
 public class Film {
     int id;
 

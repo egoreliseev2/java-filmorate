@@ -1,3 +1,4 @@
+package test;
 
 import model.film.Film;
 import model.user.User;
@@ -27,12 +28,7 @@ public class ValidationTests {
 
     @Test
     void shoulCreateUser() {
-        User user = User.builder()
-                .login("login")
-                .name("name")
-                .email("email@mail.ru")
-                .birthday(LocalDate.of(2000,8,20))
-                .build();
+        User user = getUser();
 
         Set<ConstraintViolation<User>> violations = validator.validate(user);
         assertTrue(violations.isEmpty());
@@ -40,12 +36,7 @@ public class ValidationTests {
 
     @Test
     void shouldNotCreateUserWithWrongLogin() {
-        User user = User.builder()
-                .login("")
-                .name("name")
-                .email("email@mail.ru")
-                .birthday(LocalDate.of(2000,8,20))
-                .build();
+        User user = getUser().withLogin("");
 
         Set<ConstraintViolation<User>> violations = validator.validate(user);
         assertFalse(violations.isEmpty());
@@ -53,12 +44,7 @@ public class ValidationTests {
 
     @Test
     void shouldNotCreateUserIfWrongEmail() {
-        User user = User.builder()
-                .login("login")
-                .name("")
-                .email("email.ru")
-                .birthday(LocalDate.of(2000,8,20))
-                .build();
+        User user = getUser().withEmail("email");
 
         Set<ConstraintViolation<User>> violations = validator.validate(user);
         assertFalse(violations.isEmpty());
@@ -66,12 +52,7 @@ public class ValidationTests {
 
     @Test
     void shouldNotCreateUserIfWrongBirthday() {
-        User user = User.builder()
-                .login("login")
-                .name("")
-                .email("email@mail.ru")
-                .birthday(LocalDate.of(2222,8,20))
-                .build();
+        User user = getUser().withBirthday(LocalDate.of(2222,12,2));
 
         Set<ConstraintViolation<User>> violations = validator.validate(user);
         assertFalse(violations.isEmpty());
@@ -79,12 +60,7 @@ public class ValidationTests {
 
     @Test
     void shouldCreateFilm() {
-        Film film = Film.builder()
-                .name("film")
-                .description("fdahfafa")
-                .releaseDate(LocalDate.of(1999,1,2))
-                .duration(120)
-                .build();
+        Film film = getFilm();
 
         Set<ConstraintViolation<Film>> violations = validator.validate(film);
         assertTrue(violations.isEmpty());
@@ -92,12 +68,7 @@ public class ValidationTests {
 
     @Test
     void shouldNotCreateFilmIfWrongName() {
-        Film film = Film.builder()
-                .name("")
-                .description("fdafafa")
-                .releaseDate(LocalDate.of(1999,3,25))
-                .duration(200)
-                .build();
+        Film film = getFilm().withName("");
 
         Set<ConstraintViolation<Film>> violations = validator.validate(film);
         assertFalse(violations.isEmpty());
@@ -105,12 +76,7 @@ public class ValidationTests {
 
     @Test
     void shouldNotCreateFilmIfWrongDescription() {
-        Film film = Film.builder()
-                .name("name")
-                .description("")
-                .releaseDate(LocalDate.of(1999,3,25))
-                .duration(200)
-                .build();
+        Film film = getFilm().withDescription("");
 
         Set<ConstraintViolation<Film>> violations = validator.validate(film);
         assertFalse(violations.isEmpty());
@@ -118,12 +84,7 @@ public class ValidationTests {
 
     @Test
     void shouldNotCreateFilmIfWrongReleaseDate() {
-        Film film = Film.builder()
-                .name("name")
-                .description("asfasfsa")
-                .releaseDate(LocalDate.of(1890,3,25))
-                .duration(200)
-                .build();
+        Film film = getFilm().withReleaseDate(LocalDate.of(1890,3,25));
 
         Set<ConstraintViolation<Film>> violations = validator.validate(film);
         assertFalse(violations.isEmpty());
@@ -131,15 +92,18 @@ public class ValidationTests {
 
     @Test
     void shouldNotCreateFilmIfWrongFilmDuration() {
-        Film film = Film.builder()
-                .name("name")
-                .description("fhsakjfasf")
-                .releaseDate(LocalDate.of(1980,3,25))
-                .duration(-200)
-                .build();
+        Film film = getFilm().withDuration(-200);
 
         Set<ConstraintViolation<Film>> violations = validator.validate(film);
         assertFalse(violations.isEmpty());
+    }
+
+    private Film getFilm() {
+        return new Film(1, "Interesting", "Interesting film", LocalDate.of(2000,1,2), 120);
+    }
+
+    private User getUser(){
+        return new User(1,"email@mail.ru","login","myName",LocalDate.of(2000,3,20));
     }
 
 }

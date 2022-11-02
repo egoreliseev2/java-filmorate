@@ -1,6 +1,7 @@
 package model.user;
 
 import lombok.*;
+import lombok.experimental.FieldDefaults;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
@@ -12,6 +13,7 @@ import java.time.LocalDate;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
+@FieldDefaults(makeFinal=false, level=AccessLevel.PRIVATE)
 public class User {
     int id;
 
