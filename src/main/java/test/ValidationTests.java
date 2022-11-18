@@ -11,6 +11,8 @@ import javax.validation.Validation;
 import javax.validation.Validator;
 import javax.validation.ValidatorFactory;
 import java.time.LocalDate;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.Set;
 
 import static org.junit.jupiter.api.Assertions.assertFalse;
@@ -99,11 +101,11 @@ public class ValidationTests {
     }
 
     private Film getFilm() {
-        return new Film(1, "Interesting", "Interesting film", LocalDate.of(2000,1,2), 120);
+        return new Film(1, "Interesting", "Interesting film", LocalDate.of(2000,1,2), 120, Collections.emptySet());
     }
 
-    private User getUser(){
-        return new User(1,"email@mail.ru","login","myName",LocalDate.of(2000,3,20));
+    public User getUser(){
+        return new User(1,"email@mail.ru","login","myName",LocalDate.of(2000,3,20), Collections.emptySet());
     }
 
 }

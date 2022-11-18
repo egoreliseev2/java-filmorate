@@ -1,31 +1,18 @@
 package model.film;
 
-import lombok.*;
-import lombok.experimental.FieldDefaults;
+import lombok.Value;
+import lombok.With;
 
-import javax.validation.constraints.*;
 import java.time.LocalDate;
+import java.util.Set;
 
 @With
-@Getter
-@Builder
-@NoArgsConstructor
-@AllArgsConstructor
-@FieldDefaults(makeFinal=false, level=AccessLevel.PRIVATE)
+@Value
 public class Film {
     int id;
-
-    @NotBlank
     String name;
-
-    @NotBlank
-    @Size(max = 200)
     String description;
-
-    @NotNull
-    @PastOrPresent
     LocalDate releaseDate;
-
-    @Positive
     int duration;
+    Set<Integer> likes;
 }
