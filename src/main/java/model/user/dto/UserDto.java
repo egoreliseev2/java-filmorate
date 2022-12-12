@@ -22,16 +22,16 @@ public class UserDto {
     int id;
 
     @Email(message = "Email is incorrect")
-    @NotBlank(message = "Email is required")
+    @NotBlank(message = "Email required")
     String email;
 
-    @NotBlank(message = "Login is required")
+    @NotBlank(message = "Login required")
     @Pattern(regexp = "\\S+", message = "Login must not contain space characters")
     String login;
 
     String name;
 
-    @NotNull(message = "Birthday is required")
-    @PastOrPresent(message = "Birthday must not be later than the current date")
+    @NotNull(message = "Birthday required")
+    @PastOrPresent(message = "Birthday must not be in the future")
     LocalDate birthday;
 }

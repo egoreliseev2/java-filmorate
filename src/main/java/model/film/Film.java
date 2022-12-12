@@ -2,9 +2,10 @@ package model.film;
 
 import lombok.Value;
 import lombok.With;
-
+import model.genre.Genre;
+import model.mpa.Mpa;
 import java.time.LocalDate;
-import java.util.Set;
+import java.util.List;
 
 @With
 @Value
@@ -14,5 +15,6 @@ public class Film {
     String description;
     LocalDate releaseDate;
     int duration;
-    Set<Integer> likes;
+    Mpa mpa;
+    List<Genre> genres;
 }

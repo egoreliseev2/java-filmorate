@@ -17,8 +17,7 @@ public class UserDtoToUser implements Mapper<UserDto, User> {
                 dto.getEmail(),
                 dto.getLogin(),
                 name,
-                dto.getBirthday(),
-                new LinkedHashSet<>()
+                dto.getBirthday()
         );
     }
 }

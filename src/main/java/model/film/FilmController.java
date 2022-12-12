@@ -1,6 +1,6 @@
 package model.film;
 
-import lombok.NoArgsConstructor;
+import exceptions.BadRequestException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import model.film.dto.FilmDto;
@@ -16,8 +16,10 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import service.film.FilmService;
+import service.film.FilmServiceImpl;
 
 import javax.validation.Valid;
+import java.time.LocalDate;
 import java.util.List;
 
 @Slf4j
@@ -41,12 +43,14 @@ public class FilmController {
     @ResponseStatus(HttpStatus.CREATED)
     public Film createFilm(@Valid @RequestBody FilmDto dto) {
         log.info("Creating Film " + dto);
+        validateReleaseDate(dto.getReleaseDate());
         return filmService.create(dto);
     }
 
     @PutMapping
     public Film updateFilm(@Valid @RequestBody FilmDto dto) {
         log.info("Updating Film " + dto);
+        validateReleaseDate(dto.getReleaseDate());
         return filmService.update(dto);
     }
 
@@ -61,13 +65,20 @@ public class FilmController {
         return filmService.getPopularFilms(count);
     }
 
+    @ResponseStatus(HttpStatus.NO_CONTENT)
     @PutMapping("/{id}/like/{userId}")
-    public Film likeFilm(@PathVariable int id, @PathVariable int userId) {
-        return filmService.likeFilm(id, userId);
+    public void likeFilm(@PathVariable int id, @PathVariable int userId) {
+        filmService.likeFilm(id,userId);
     }
 
+    @ResponseStatus(HttpStatus.NO_CONTENT)
     @DeleteMapping("/{id}/like/{userId}")
-    public Film deleteLikeFromFilm(@PathVariable int id, @PathVariable int userId) {
-        return filmService.deleteLikeFromFilm(id, userId);
+    public void deleteLikeFromFilm(@PathVariable int id, @PathVariable int userId) {
+        filmService.deleteLikeFromFilm(id, userId);
+    }
+    private void validateReleaseDate(LocalDate date) {
+        if (date.isBefore(LocalDate.of(1895, 12, 28))) {
+            throw new BadRequestException("releaseDate");
+        }
     }
 }

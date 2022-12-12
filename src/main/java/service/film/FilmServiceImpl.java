@@ -1,27 +1,41 @@
 package service.film;
 
 import exceptions.NotFoundException;
-import lombok.RequiredArgsConstructor;
 import model.film.Film;
 import model.film.dto.FilmDto;
+import model.mpa.Mpa;
 import model.user.User;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import storage.film.FilmStorage;
+import storage.genre.GenreStorage;
+import storage.mpa.MpaStorage;
 import storage.user.UserStorage;
 import utils.Mapper;
 
-import java.util.LinkedHashSet;
 import java.util.List;
-import java.util.Set;
-import java.util.stream.Collectors;
 
 @Service
-@RequiredArgsConstructor
 public class FilmServiceImpl implements FilmService {
     private final FilmStorage filmStorage;
     private final UserStorage userStorage;
+    private final MpaStorage mpaStorage;
+    private final GenreStorage genreStorage;
     private final Mapper<FilmDto, Film> filmDtoToFilmMapper;
 
+    public FilmServiceImpl(
+            @Qualifier("dbFilmStorage") FilmStorage filmStorage,
+            @Qualifier("dbUserStorage") UserStorage userStorage,
+            MpaStorage mpaStorage,
+            GenreStorage genreStorage,
+            Mapper<FilmDto, Film> filmDtoToFilmMapper
+    ) {
+        this.filmStorage = filmStorage;
+        this.userStorage = userStorage;
+        this.mpaStorage = mpaStorage;
+        this.genreStorage = genreStorage;
+        this.filmDtoToFilmMapper = filmDtoToFilmMapper;
+    }
     @Override
     public List<Film> getAll() {
         return filmStorage.getAll();
@@ -41,6 +55,16 @@ public class FilmServiceImpl implements FilmService {
     @Override
     public Film create(FilmDto dto) {
         Film newFilm = filmDtoToFilmMapper.mapFrom(dto);
+        Mpa mpa = mpaStorage.getById(newFilm.getMpa().getId());
+        if(mpa == null){
+            throw new NotFoundException("mpa");
+        }
+
+        newFilm.getGenres().forEach(genre -> {
+            if (genreStorage.getById(genre.getId()) == null) {
+                throw new NotFoundException("genre");
+            }
+        });
         return filmStorage.create(newFilm);
     }
 
@@ -52,7 +76,17 @@ public class FilmServiceImpl implements FilmService {
             throw new NotFoundException("film");
         }
 
-        Film film = filmDtoToFilmMapper.mapFrom(dto).withLikes(currentFilm.getLikes());
+        Film film = filmDtoToFilmMapper.mapFrom(dto);
+
+        if (mpaStorage.getById(film.getMpa().getId()) == null) {
+            throw new NotFoundException("mpa");
+        }
+
+        film.getGenres().forEach(genre -> {
+            if (genreStorage.getById(genre.getId()) == null) {
+                throw new NotFoundException("genre");
+            }
+        });
 
         return filmStorage.update(film.getId(), film);
     }
@@ -69,7 +103,7 @@ public class FilmServiceImpl implements FilmService {
     }
 
     @Override
-    public Film likeFilm(int filmId, int userId) {
+    public void likeFilm(int filmId, int userId) {
         Film film = filmStorage.getById(filmId);
         User user = userStorage.getById(userId);
 
@@ -80,20 +114,13 @@ public class FilmServiceImpl implements FilmService {
         if (user == null) {
             throw new NotFoundException("user");
         }
-
-        Set<Integer> currentLikes = new LinkedHashSet<>(film.getLikes());
-        currentLikes.add(userId);
-
-        Film updatedFilm = film.withLikes(currentLikes);
-
-        return filmStorage.update(filmId, updatedFilm);
+        filmStorage.likeFilm(filmId,userId);
     }
 
     @Override
-    public Film deleteLikeFromFilm(int filmId, int userId) {
+    public void deleteLikeFromFilm(int filmId, int userId) {
         Film film = filmStorage.getById(filmId);
         User user = userStorage.getById(userId);
-
         if (film == null) {
             throw new NotFoundException("film");
         }
@@ -102,21 +129,11 @@ public class FilmServiceImpl implements FilmService {
             throw new NotFoundException("user");
         }
 
-        Set<Integer> currentLikes = new LinkedHashSet<>(film.getLikes());
-        currentLikes.remove(userId);
-
-        Film updatedFilm = film.withLikes(currentLikes);
-
-        return filmStorage.update(filmId, updatedFilm);
+        filmStorage.deleteLikeFromFilm(filmId, userId);
     }
 
     @Override
     public List<Film> getPopularFilms(int count) {
-        List<Film> films = filmStorage.getAll();
-        return films
-                .stream()
-                .sorted((f1, f2) -> f2.getLikes().size() - f1.getLikes().size())
-                .limit(Math.max(count, 0))
-                .collect(Collectors.toList());
+        return filmStorage.getPopularFilms(count);
     }
 }

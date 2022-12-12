@@ -4,7 +4,8 @@ import model.film.Film;
 import org.springframework.stereotype.Component;
 import utils.Mapper;
 
-import java.util.LinkedHashSet;
+import java.util.Collections;
+import java.util.Optional;
 
 @Component
 public class FilmDtoToFilm implements Mapper<FilmDto, Film> {
@@ -16,7 +17,8 @@ public class FilmDtoToFilm implements Mapper<FilmDto, Film> {
                 dto.getDescription(),
                 dto.getReleaseDate(),
                 dto.getDuration(),
-                new LinkedHashSet<>()
+                dto.getMpa(),
+                Optional.ofNullable(dto.getGenres()).orElse(Collections.emptyList())
         );
     }
 }
