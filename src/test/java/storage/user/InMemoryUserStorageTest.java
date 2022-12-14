@@ -1,9 +1,9 @@
 package storage.user;
 
-import model.user.User;
+import start.model.user.User;
 import org.junit.jupiter.api.BeforeEach;
 import storage.InMemoryStorageTest;
-import storage.user.InMemoryUserStorage;
+import start.storage.user.InMemoryUserStorage;
 
 import java.time.LocalDate;
 

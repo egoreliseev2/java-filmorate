@@ -2,9 +2,9 @@ package model.user;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
-import model.user.User;
-import model.user.UserController;
-import model.user.dto.UserDto;
+import start.model.user.User;
+import start.model.user.UserController;
+import start.model.user.dto.UserDto;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -15,7 +15,7 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
-import service.user.UserService;
+import start.service.user.UserService;
 
 import java.time.LocalDate;
 import java.util.List;

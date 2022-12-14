@@ -1,9 +1,9 @@
 package model.film.dto;
 
-import model.film.Film;
-import model.film.dto.FilmDto;
-import model.film.dto.FilmDtoToFilm;
-import model.mpa.Mpa;
+import start.model.film.Film;
+import start.model.film.dto.FilmDto;
+import start.model.film.dto.FilmDtoToFilm;
+import start.model.mpa.Mpa;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;

@@ -1,8 +1,8 @@
 package model.user.dto;
 
-import model.user.User;
-import model.user.dto.UserDto;
-import model.user.dto.UserDtoToUser;
+import start.model.user.User;
+import start.model.user.dto.UserDto;
+import start.model.user.dto.UserDtoToUser;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;

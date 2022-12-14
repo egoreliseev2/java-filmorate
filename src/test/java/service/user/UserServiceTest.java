@@ -1,16 +1,16 @@
 package service.user;
 
-import exceptions.NotFoundException;
-import model.user.User;
-import model.user.dto.UserDto;
-import model.user.dto.UserDtoToUser;
+import start.exceptions.NotFoundException;
+import start.model.user.User;
+import start.model.user.dto.UserDto;
+import start.model.user.dto.UserDtoToUser;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import service.user.UserServiceImpl;
-import storage.user.UserStorage;
+import start.service.user.UserServiceImpl;
+import start.storage.user.UserStorage;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.assertj.core.api.Assertions.*;

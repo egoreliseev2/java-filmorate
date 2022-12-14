@@ -2,8 +2,10 @@ package model.film;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
-import model.film.dto.FilmDto;
-import model.mpa.Mpa;
+import start.model.film.Film;
+import start.model.film.FilmController;
+import start.model.film.dto.FilmDto;
+import start.model.mpa.Mpa;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -17,7 +19,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
-import service.film.FilmService;
+import start.service.film.FilmService;
 
 import java.time.LocalDate;
 import java.util.Collections;
