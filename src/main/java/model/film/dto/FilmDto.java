@@ -23,17 +23,17 @@ import java.util.List;
 public class FilmDto {
     int id;
 
-    @NotBlank(message = "Name required")
+    @NotBlank(message = "Имя не может быть пустым")
     String name;
 
-    @NotBlank(message = "Description required")
-    @Size(max = 200, message = "Description must not be longer than 200 characters")
+    @NotBlank(message = "Описание не может быть пустым")
+    @Size(max = 200, message = "Описание не может быть более чем 200 символов")
     String description;
 
-    @NotNull(message = "Release date required")
+    @NotNull(message = "Дата выхода не может быть пустым")
     LocalDate releaseDate;
 
-    @Positive(message = "Duration required")
+    @Positive(message = "Длительность не может быть пустым")
     int duration;
 
     @NotNull(message = "Mpa required")

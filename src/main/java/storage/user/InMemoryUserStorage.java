@@ -37,4 +37,6 @@ public class InMemoryUserStorage extends InMemoryStorage<User> implements UserSt
     public List<User> getCommonFriends(int userId, int otherId) {
         return null;
     }
+
+
 }

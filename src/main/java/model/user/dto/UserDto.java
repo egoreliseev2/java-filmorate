@@ -21,17 +21,17 @@ import java.time.LocalDate;
 public class UserDto {
     int id;
 
-    @Email(message = "Email is incorrect")
-    @NotBlank(message = "Email required")
+    @Email(message = "Почта не соответствует формату")
+    @NotBlank(message = "Почта не может быть пустым")
     String email;
 
-    @NotBlank(message = "Login required")
-    @Pattern(regexp = "\\S+", message = "Login must not contain space characters")
+    @NotBlank(message = "Логин не может быть пустым")
+    @Pattern(regexp = "\\S+", message = "Логин не может содержать пробел")
     String login;
 
     String name;
 
-    @NotNull(message = "Birthday required")
-    @PastOrPresent(message = "Birthday must not be in the future")
+    @NotNull(message = "День рождение не может быть пустым")
+    @PastOrPresent(message = "День рождение не может быть в будущем")
     LocalDate birthday;
 }
