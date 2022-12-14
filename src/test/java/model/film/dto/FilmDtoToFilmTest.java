@@ -1,4 +1,4 @@
-package film;
+package model.film.dto;
 
 import model.film.Film;
 import model.film.dto.FilmDto;

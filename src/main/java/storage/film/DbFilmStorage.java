@@ -42,15 +42,15 @@ public class DbFilmStorage implements FilmStorage {
     @Override
     public Film create(Film film) {
         SimpleJdbcInsert simpleJdbcInsert = new SimpleJdbcInsert(jdbcTemplate)
-                .withTableName("film")
-                .usingGeneratedKeyColumns("film_id");
+                .withTableName("FILM")
+                .usingGeneratedKeyColumns("FILM_ID");
 
         Map<String, Object> filmColumns = new HashMap<>();
-        filmColumns.put("name", film.getName());
-        filmColumns.put("description", film.getDescription());
-        filmColumns.put("release_date", film.getReleaseDate());
-        filmColumns.put("duration", film.getDuration());
-        filmColumns.put("mpa_id", film.getMpa().getId());
+        filmColumns.put("NAME", film.getName());
+        filmColumns.put("DESCRIPTION", film.getDescription());
+        filmColumns.put("RELEASE_DATE", film.getReleaseDate());
+        filmColumns.put("DURATION", film.getDuration());
+        filmColumns.put("MPA_ID", film.getMpa().getId());
 
         int filmId = simpleJdbcInsert.executeAndReturnKey(filmColumns).intValue();
 
@@ -107,36 +107,38 @@ public class DbFilmStorage implements FilmStorage {
 
     private Film mapRowToFilm(ResultSet resultSet, int rowNum) throws SQLException {
         return new Film(
-                resultSet.getInt("film_id"),
-                resultSet.getString("film.name"),
-                resultSet.getString("description"),
-                resultSet.getDate("release_date").toLocalDate(),
-                resultSet.getInt("duration"),
-                new Mpa(resultSet.getInt("mpa.mpa_id"), resultSet.getString("mpa.name")),
-                genreStorage.getAllByFilmId(resultSet.getInt("film_id"))
+                resultSet.getInt("FILM_ID"),
+                resultSet.getString("FILM.NAME"),
+                resultSet.getString("DESCRIPTION"),
+                resultSet.getDate("RELEASE_DATE").toLocalDate(),
+                resultSet.getInt("DURATION"),
+                new Mpa(resultSet.getInt("MPA.MPA_ID"), resultSet.getString("MPA.NAME")),
+                genreStorage.getAllByFilmId(resultSet.getInt("FILM_ID"))
         );
     }
 
     private void updateFilmGenres(List<Genre> genres, int filmId) {
-        if (genres != null) {
-            List<Integer> genreUniqueIds = genres.stream()
-                    .map(Genre::getId)
-                    .distinct()
-                    .collect(Collectors.toList());
-
-            jdbcTemplate.batchUpdate(
-                    FilmQueries.ADD_GENRE,
-                    new BatchPreparedStatementSetter() {
-                        public void setValues(PreparedStatement ps, int i) throws SQLException {
-                            int genreId = genreUniqueIds.get(i);
-                            ps.setInt(1, filmId);
-                            ps.setInt(2, genreId);
-                        }
-
-                        public int getBatchSize() {
-                            return genreUniqueIds.size();
-                        }
-                    });
+        if (genres == null) {
+            return;
         }
+
+        List<Integer> genreUniqueIds = genres.stream()
+                .map(Genre::getId)
+                .distinct()
+                .collect(Collectors.toList());
+
+        jdbcTemplate.batchUpdate(
+                FilmQueries.ADD_GENRE,
+                new BatchPreparedStatementSetter() {
+                    public void setValues(PreparedStatement ps, int i) throws SQLException {
+                        int genreId = genreUniqueIds.get(i);
+                        ps.setInt(1, filmId);
+                        ps.setInt(2, genreId);
+                    }
+
+                    public int getBatchSize() {
+                        return genreUniqueIds.size();
+                    }
+                });
     }
 }

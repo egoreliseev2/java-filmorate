@@ -1,10 +1,9 @@
-package film;
+package storage.film;
 
 import model.film.Film;
 import model.mpa.Mpa;
 import org.junit.jupiter.api.BeforeEach;
 import storage.InMemoryStorageTest;
-import storage.film.InMemoryFilmStorage;
 
 import java.time.LocalDate;
 import java.util.Collections;

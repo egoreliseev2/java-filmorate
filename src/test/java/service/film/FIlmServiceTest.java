@@ -1,4 +1,4 @@
-package film;
+package service.film;
 
 import exceptions.NotFoundException;
 import model.film.Film;
@@ -10,7 +10,6 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import service.film.FilmServiceImpl;
 import storage.film.FilmStorage;
 import storage.mpa.MpaStorage;
 

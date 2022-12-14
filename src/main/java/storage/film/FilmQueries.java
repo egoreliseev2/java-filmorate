@@ -2,7 +2,7 @@ package storage.film;
 
 public class FilmQueries {
     static final String GET_ALL = "SELECT * " +
-            "FROM film AS f " +
+            "FROM FILM AS f " +
             "JOIN mpa AS m ON f.mpa_id = m.mpa_id";
 
     static final String GET_BY_ID = "SELECT * " +

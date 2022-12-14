@@ -16,17 +16,13 @@ public class DbGenreStorage implements GenreStorage {
 
     @Override
     public List<Genre> getAll() {
-        String sql = "SELECT * FROM genre ORDER BY genre_id";
-        try {
-            return jdbcTemplate.query(sql, this::mapRowToGenre);
-        } catch (DataAccessException exception) {
-            return null;
-        }
+        String sql = "SELECT * FROM GENRE ORDER BY genre_id";
+        return jdbcTemplate.query(sql, this::mapRowToGenre);
     }
 
     @Override
     public Genre getById(int id) {
-        String sql = "SELECT * FROM genre WHERE genre_id = ?";
+        String sql = "SELECT * FROM GENRE WHERE genre_id = ?";
         try {
             return jdbcTemplate.queryForObject(sql, this::mapRowToGenre, id);
         } catch (DataAccessException exception) {
@@ -37,8 +33,8 @@ public class DbGenreStorage implements GenreStorage {
     @Override
     public List<Genre> getAllByFilmId(int filmId) {
         String sql = "SELECT fg.genre_id AS genre_id, g.name AS name " +
-                "FROM film_genre AS fg " +
-                "JOIN genre AS g ON fg.genre_id = g.genre_id " +
+                "FROM FILM_GENRE AS fg " +
+                "JOIN GENRE AS g ON fg.genre_id = g.genre_id " +
                 "WHERE fg.film_id = ? ";
         try {
             return jdbcTemplate.query(sql, this::mapRowToGenre, filmId);

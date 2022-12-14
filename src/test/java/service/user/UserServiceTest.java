@@ -1,4 +1,4 @@
-package user;
+package service.user;
 
 import exceptions.NotFoundException;
 import model.user.User;

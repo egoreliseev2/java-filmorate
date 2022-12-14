@@ -1,8 +1,7 @@
-package film;
+package model.film;
+
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
-import model.film.Film;
-import model.film.FilmController;
 import model.film.dto.FilmDto;
 import model.mpa.Mpa;
 import org.junit.jupiter.api.BeforeEach;

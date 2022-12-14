@@ -1,6 +1,6 @@
 package storage.user;
 public class UserQueries {
-    static final String GET_ALL = "SELECT * FROM users";
+    static final String GET_ALL = "SELECT * FROM USERS";
 
     static final String GET_BY_ID = "SELECT * FROM users WHERE user_id = ?";
 

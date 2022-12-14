@@ -1,4 +1,4 @@
-package user;
+package model.user.dto;
 
 import model.user.User;
 import model.user.dto.UserDto;

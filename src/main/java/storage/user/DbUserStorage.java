@@ -6,7 +6,6 @@ import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Repository;
-
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.HashMap;
@@ -44,14 +43,14 @@ public class DbUserStorage implements UserStorage {
     @Override
     public User create(User user) {
         SimpleJdbcInsert simpleJdbcInsert = new SimpleJdbcInsert(jdbcTemplate)
-                .withTableName("users")
-                .usingGeneratedKeyColumns("user_id");
+                .withTableName("USERS")
+                .usingGeneratedKeyColumns("USER_ID");
 
         Map<String, Object> userColumns = new HashMap<>();
-        userColumns.put("email", user.getEmail());
-        userColumns.put("login", user.getLogin());
-        userColumns.put("name", user.getName());
-        userColumns.put("birthday", user.getBirthday());
+        userColumns.put("EMAIL", user.getEmail());
+        userColumns.put("LOGIN", user.getLogin());
+        userColumns.put("NAME", user.getName());
+        userColumns.put("BIRTHDAY", user.getBirthday());
 
         int userId = simpleJdbcInsert.executeAndReturnKey(userColumns).intValue();
 
@@ -97,11 +96,11 @@ public class DbUserStorage implements UserStorage {
 
     @Override
     public void addFriend(int userId, int friendId) {
-        SimpleJdbcInsert simpleJdbcInsert = new SimpleJdbcInsert(jdbcTemplate).withTableName("friendship");
+        SimpleJdbcInsert simpleJdbcInsert = new SimpleJdbcInsert(jdbcTemplate).withTableName("FRIENDSHIP");
 
         Map<String, Object> userColumns = new HashMap<>();
-        userColumns.put("user_id", userId);
-        userColumns.put("friend_id", friendId);
+        userColumns.put("USER_ID", userId);
+        userColumns.put("FRIEND_ID", friendId);
 
         simpleJdbcInsert.execute(userColumns);
     }
@@ -113,11 +112,11 @@ public class DbUserStorage implements UserStorage {
 
     private User mapRowToUser(ResultSet resultSet, int rowNum) throws SQLException {
         return new User(
-                resultSet.getInt("user_id"),
-                resultSet.getString("email"),
-                resultSet.getString("login"),
-                resultSet.getString("name"),
-                resultSet.getDate("birthday").toLocalDate()
+                resultSet.getInt("USER_ID"),
+                resultSet.getString("EMAIL"),
+                resultSet.getString("LOGIN"),
+                resultSet.getString("NAME"),
+                resultSet.getDate("BIRTHDAY").toLocalDate()
         );
     }
 }

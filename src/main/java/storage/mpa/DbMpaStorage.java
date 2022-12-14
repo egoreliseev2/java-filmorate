@@ -17,17 +17,13 @@ public class DbMpaStorage implements MpaStorage {
 
     @Override
     public List<Mpa> getAll() {
-        String sql = "SELECT * FROM mpa ORDER BY mpa_id";
-        try {
-            return jdbcTemplate.query(sql, this::mapRowToRate);
-        } catch (DataAccessException exception) {
-            return null;
-        }
+        String sql = "SELECT * FROM MPA ORDER BY MPA_ID";
+        return jdbcTemplate.query(sql, this::mapRowToRate);
     }
 
     @Override
     public Mpa getById(int id) {
-        String sql = "SELECT * FROM mpa WHERE mpa_id = ?";
+        String sql = "SELECT * FROM MPA WHERE MPA_ID = ?";
         try {
             return jdbcTemplate.queryForObject(sql, this::mapRowToRate, id);
         } catch (DataAccessException exception) {
@@ -36,6 +32,6 @@ public class DbMpaStorage implements MpaStorage {
     }
 
     private Mpa mapRowToRate(ResultSet resultSet, int rowNum) throws SQLException {
-        return new Mpa(resultSet.getInt("mpa_id"), resultSet.getString("name"));
+        return new Mpa(resultSet.getInt("MPA_ID"), resultSet.getString("NAME"));
     }
 }

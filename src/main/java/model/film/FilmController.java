@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import service.film.FilmService;
-import service.film.FilmServiceImpl;
 
 import javax.validation.Valid;
 import java.time.LocalDate;
