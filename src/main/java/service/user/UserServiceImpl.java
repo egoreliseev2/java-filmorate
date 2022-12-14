@@ -2,7 +2,6 @@ package service.user;
 
 import exceptions.BadRequestException;
 import exceptions.NotFoundException;
-import lombok.RequiredArgsConstructor;
 import model.user.User;
 import model.user.dto.UserDto;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -10,10 +9,8 @@ import org.springframework.stereotype.Service;
 import storage.user.UserStorage;
 import utils.Mapper;
 
-import java.util.LinkedHashSet;
 import java.util.List;
-import java.util.Set;
-import java.util.stream.Collectors;
+
 
 @Service
 public class UserServiceImpl implements UserService {
@@ -49,7 +46,7 @@ public class UserServiceImpl implements UserService {
         User newUser = userDtoToUserMapper.mapFrom(dto);
 
         if (emailIsBusy(newUser.getEmail())) {
-            throw new BadRequestException("email");
+            throw new BadRequestException("User with this email is already exists");
         }
 
         return userStorage.create(newUser);
@@ -66,7 +63,7 @@ public class UserServiceImpl implements UserService {
         User user = userDtoToUserMapper.mapFrom(dto);
 
         if (emailIsBusy(user.getEmail())) {
-            throw new BadRequestException("email");
+            throw new BadRequestException("User with this email is already exists");
         }
 
         return userStorage.update(user.getId(), user);
@@ -86,7 +83,7 @@ public class UserServiceImpl implements UserService {
     @Override
     public void addFriend(int userId, int friendId) {
         if (userId == friendId) {
-            throw new BadRequestException("friendId");
+            throw new BadRequestException("friendId can not be equal to userId");
         }
 
         User user = userStorage.getById(userId);
